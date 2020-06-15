@@ -18,37 +18,62 @@ export class Vega extends React.Component<Props, State> {
     super(props)
 
     this.state = {
-        svg: '',
-        spec: null
+            svg: '',
+            spec: null
+        }
     }
-  }
 
-  async componentDidMount() {
-    const view = new vega.View(vega.parse(vegaSpec as any), {
-        renderer: 'none'
-      });
-    view.finalize();
-    const svg = await view.toSVG();
-    console.log('Current svg', svg);
-    this.setState({ svg, spec: vegaSpec });
-  }
+    async componentDidMount() {
+        const view = new vega.View(vega.parse(vegaSpec as any), {
+            renderer: 'none'
+        });
+        view.finalize();
+        const svg = await view.toSVG();
+        this.setState({ svg, spec: vegaSpec });
+    }
 
-  renderSvg() {
-    if (this.state.svg) {
-        console.log("Render svg");
+    renderSvg() {
+        if (this.state.svg) {
+            console.log("Render svg");
+            return (
+                <SvgXml xml={this.state.svg}></SvgXml>
+            )
+        } 
+    }
+
+    onButtonClick = async () => {
+        if (this.state.spec === vegaliteSpec) {
+            const view = new vega.View(vega.parse(vegaSpec as any), {
+                renderer: 'none'
+            });
+            view.finalize();
+            const svg = await view.toSVG();
+            this.setState({ svg, spec: vegaSpec });
+        } else {
+            const view = new vega.View(vega.parse(vegaliteSpec as any), {
+                renderer: 'none'
+            });
+            view.finalize();
+            const svg = await view.toSVG();
+            this.setState({ svg, spec: vegaliteSpec });
+        }
+        console.log('Change spec');
+    }   
+
+    renderButton() {
         return (
-            <SvgXml xml={this.state.svg}></SvgXml>
+            <Button title='Change Spec' onPress={this.onButtonClick}></Button>
         )
-    } 
-}
+    }
 
-  render() {
-    return (
-      <View style={styles.root}>
-        {this.renderSvg()}
-      </View>
-    )
-  }
+    render() {
+        return (
+        <View style={styles.root}>
+            {this.renderSvg()}
+            {this.renderButton()}
+        </View>
+        )
+    }
 }
 
 // styles
