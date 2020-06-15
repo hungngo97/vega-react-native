@@ -5,6 +5,10 @@ import { SvgXml } from 'react-native-svg';
 import vegaSpec from '../vegaSpecs/bar.vg.json';
 import vegaliteSpec from '../vegaSpecs/bar.vl.json';
 import { PlainObject } from './types';
+import embed from 'vega-embed';
+import { WebView } from 'react-native-webview';
+import { htmlBase } from './constants';
+
 export interface Props {
     spec: string,
     data?: PlainObject;
