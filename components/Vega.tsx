@@ -4,8 +4,10 @@ import * as vega from 'vega';
 import { SvgXml } from 'react-native-svg';
 import vegaSpec from '../vegaSpecs/bar.vg.json';
 import vegaliteSpec from '../vegaSpecs/bar.vl.json';
-
+import { PlainObject } from './types';
 export interface Props {
+    spec: string,
+    data?: PlainObject;
 }
 
 interface State {
